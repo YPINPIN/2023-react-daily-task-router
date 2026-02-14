@@ -1,5 +1,5 @@
 import './App.css';
-import { HashRouter, NavLink, Routes, Route, useNavigate } from 'react-router-dom';
+import { HashRouter, NavLink, Routes, Route, useNavigate, Outlet, useParams } from 'react-router-dom';
 
 const Home = () => {
   return <p>這是首頁</p>;
@@ -25,6 +25,20 @@ const Logout = () => {
   return <button onClick={() => navigate('/login')}>登出</button>;
 };
 
+const Post = () => {
+  return (
+    <div>
+      <h2>Post 頁面</h2>
+      <Outlet />
+    </div>
+  );
+};
+
+const PostDetail = () => {
+  const { postId } = useParams();
+  return <p>Post ID: {postId}</p>;
+};
+
 const NotFound = () => {
   return <p>沒有這個頁面</p>;
 };
@@ -46,6 +60,15 @@ function App() {
           <NavLink to="/todo">
             <p>Todo 頁面</p>
           </NavLink>
+          <NavLink to="/post">
+            <p>Post 頁面</p>
+          </NavLink>
+          <NavLink to="/post/post123">
+            <p>Post123 詳細頁面</p>
+          </NavLink>
+          <NavLink to="/post/post456">
+            <p>Post456 詳細頁面</p>
+          </NavLink>
         </div>
         {/* Routes, Route 練習區 */}
         <Routes>
@@ -53,6 +76,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/todo" element={<Todo />} />
+          <Route path="/post" element={<Post />}>
+            <Route path=":postId" element={<PostDetail />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
         {/* 練習區 */}
